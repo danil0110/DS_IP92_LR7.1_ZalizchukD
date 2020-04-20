@@ -33,6 +33,8 @@ namespace DS_IP92_LR7._1_ZalizchukD
         }
     }
 
+    // ================ КЛАСС "ГРАФ" ================
+    
     class Graph
     {
         private int n, m;
@@ -40,6 +42,8 @@ namespace DS_IP92_LR7._1_ZalizchukD
         private int[] vertexPowers;
         private List<int> pruferCode = new List<int>(), vertices;
 
+        // ================ КОНСТРУКТОР, ЧТЕНИЕ ДАННЫХ О ГРАФЕ ================
+        
         public Graph(string path)
         {
             StreamReader sr = new StreamReader(path);
@@ -84,21 +88,23 @@ namespace DS_IP92_LR7._1_ZalizchukD
 
         }
         
+        // ================ ПОЛУЧЕНИЕ КОДА ПРЮФЕРА ИЗ ДЕРЕВА ================
+        
         public void TreeToPrufer()
         {
             for (int i = 0; i < n - 2; i++)
             {
                 for (int j = 0; j < n; j++)
                 {
-                    if (vertexPowers[j] == 1)
+                    if (vertexPowers[j] == 1) // если с вершина - листок с наименьшим номером
                     {
                         for (int k = 0; k < n; k++)
                         {
-                            if (mSmezh[j, k] == 1)
+                            if (mSmezh[j, k] == 1) // ищем ей инцидентную вершину
                             {
-                                mSmezh[j, k] = 0;
+                                mSmezh[j, k] = 0; // удаляем ребро
                                 mSmezh[k, j] = 0;
-                                pruferCode.Add(k);
+                                pruferCode.Add(k); // добавляем инцидентную вершину в код
                                 vertexPowers[k]--;
                                 break;
                             }
@@ -117,23 +123,26 @@ namespace DS_IP92_LR7._1_ZalizchukD
             }
         }
 
+        // ================ ПОЛУЧЕНИЕ ДЕРЕВА ИЗ КОДА ПРЮФЕРА ================
+        
         public void PruferToTree()
         {
             for (int i = 0; i < n - 2; i++)
             {
                 for (int j = 0; j < vertices.Count; j++)
                 {
-                    if (!pruferCode.Contains(vertices[j]))
+                    if (!pruferCode.Contains(vertices[j])) // ищем номер наименьшей вершины, которой нет в коде
                     {
-                        mSmezh[vertices[j], pruferCode[0]] = 1;
+                        mSmezh[vertices[j], pruferCode[0]] = 1; // создаем ребро с первой вершиной из кода
                         mSmezh[pruferCode[0], vertices[j]] = 1;
-                        vertices.RemoveAt(j);
-                        pruferCode.RemoveAt(0);
+                        vertices.RemoveAt(j); // удаляем задействованные вершины
+                        pruferCode.RemoveAt(0); 
                         break;
                     }
                 }
             }
 
+            // оставшиеся 2 вершины в списке вершин составляют последнее ребро
             mSmezh[vertices[0], vertices[1]] = 1;
             mSmezh[vertices[1], vertices[0]] = 1;
             
