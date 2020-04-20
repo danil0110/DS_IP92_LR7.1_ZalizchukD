@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace DS_IP92_LR7._1_ZalizchukD
 {
@@ -9,15 +10,19 @@ namespace DS_IP92_LR7._1_ZalizchukD
         static void Main(string[] args)
         {
             string input = "graph.txt", prufer = "prufer.txt", choice;
+            Graph graph;
             Console.WriteLine("1. Дерево в код Прюфера\n2. Код Прюфера в дерево");
             choice = Console.ReadLine();
             if (choice == "1")
             {
-                Graph graph = new Graph(input);
+                Console.Clear();
+                graph = new Graph(input);
+                graph.TreeToPrufer();
             }
             else if (choice == "2")
             {
-                Graph graph = new Graph(prufer);
+                Console.Clear();
+                graph = new Graph(prufer);
             }
             else
             {
@@ -75,7 +80,42 @@ namespace DS_IP92_LR7._1_ZalizchukD
                     vertices.Add(i);
                 
             }
+
         }
+        
+        public void TreeToPrufer()
+        {
+            for (int i = 0; i < n - 2; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (vertexPowers[j] == 1)
+                    {
+                        for (int k = 0; k < n; k++)
+                        {
+                            if (mSmezh[j, k] == 1)
+                            {
+                                mSmezh[j, k] = 0;
+                                mSmezh[k, j] = 0;
+                                pruferCode.Add(k);
+                                vertexPowers[k]--;
+                                break;
+                            }
+                        }
+
+                        vertexPowers[j]--;
+                        break;
+                    }
+                }
+            }
+            
+            Console.Write("Код Прюфера: ");
+            foreach (var el in pruferCode)
+            {
+                Console.Write($"{el + 1} ");
+            }
+        }
+        
     }
     
 }
