@@ -23,6 +23,7 @@ namespace DS_IP92_LR7._1_ZalizchukD
             {
                 Console.Clear();
                 graph = new Graph(prufer);
+                graph.PruferToTree();
             }
             else
             {
@@ -114,6 +115,37 @@ namespace DS_IP92_LR7._1_ZalizchukD
             {
                 Console.Write($"{el + 1} ");
             }
+        }
+
+        public void PruferToTree()
+        {
+            for (int i = 0; i < n - 2; i++)
+            {
+                for (int j = 0; j < vertices.Count; j++)
+                {
+                    if (!pruferCode.Contains(vertices[j]))
+                    {
+                        mSmezh[vertices[j], pruferCode[0]] = 1;
+                        mSmezh[pruferCode[0], vertices[j]] = 1;
+                        vertices.RemoveAt(j);
+                        pruferCode.RemoveAt(0);
+                        break;
+                    }
+                }
+            }
+
+            mSmezh[vertices[0], vertices[1]] = 1;
+            mSmezh[vertices[1], vertices[0]] = 1;
+            
+            Console.WriteLine("Матрица смежности полученного дерева:");
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                    Console.Write("{0,4}", mSmezh[i, j]);
+                
+                Console.WriteLine();
+            }
+            
         }
         
     }
