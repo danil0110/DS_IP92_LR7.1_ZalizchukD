@@ -96,7 +96,7 @@ namespace DS_IP92_LR7._1_ZalizchukD
             {
                 for (int j = 0; j < n; j++)
                 {
-                    if (vertexPowers[j] == 1) // если с вершина - листок с наименьшим номером
+                    if (vertexPowers[j] == 1) // если вершина - листок с наименьшим номером
                     {
                         for (int k = 0; k < n; k++)
                         {
@@ -131,7 +131,7 @@ namespace DS_IP92_LR7._1_ZalizchukD
             {
                 for (int j = 0; j < vertices.Count; j++)
                 {
-                    if (!pruferCode.Contains(vertices[j])) // ищем номер наименьшей вершины, которой нет в коде
+                    if (!pruferCode.Contains(vertices[j])) // ищем наименьший номер вершины, которой нет в коде
                     {
                         mSmezh[vertices[j], pruferCode[0]] = 1; // создаем ребро с первой вершиной из кода
                         mSmezh[pruferCode[0], vertices[j]] = 1;
